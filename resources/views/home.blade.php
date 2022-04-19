@@ -25,7 +25,7 @@
         <div class="col-md-12">
             <div class="card">
                 <div class="card-header bg-success">
-                    User list
+                    <h1>Total Users: {{ $total_users }}</h1>
                 </div>
                 <div class="card-body">
                 <table class="table">
@@ -43,7 +43,11 @@
                         <th scope="row">{{ $user->id }}</th>
                         <td> {{ $user->name }} </td>
                         <td>{{ $user->email }}</td>
-                        <td>{{ $user->created_at->format('d/m/Y h:i:s A') }}</td>
+                        <td>
+                            {{ $user->created_at->format('d/m/Y h:i:s A') }}
+                            <br>
+                            {{ $user->created_at->diffForHumans() }}
+                        </td>
                         </tr>
                         @endforeach
                     </tbody>
