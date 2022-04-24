@@ -31,7 +31,8 @@
                 <table class="table">
                     <thead>
                         <tr>
-                        <th scope="col">ID</th>
+                        <th scope="col">Sl No</th>
+                        <th scope="col">ID No</th>
                         <th scope="col">Name</th>
                         <th scope="col">Email</th>
                         <th scope="col">Createed at</th>
@@ -40,6 +41,7 @@
                     <tbody>
                         @foreach($users as $user)
                         <tr>
+                        <td class='text-center'> {{ $users->firstItem()+$loop->index }} </td>
                         <th scope="row">{{ $user->id }}</th>
                         <td> {{ $user->name }} </td>
                         <td>{{ $user->email }}</td>
@@ -52,6 +54,7 @@
                         @endforeach
                     </tbody>
                     </table>
+                    {{ $users->links() }}
                 </div>
             </div>
         </div>

@@ -24,7 +24,7 @@ class HomeController extends Controller
      */
     public function index()
     {
-        $users = User::latest()->get();
+        $users = User::latest()->paginate(3);
         // $users = User::orderBy('id', 'desc')->get();
         $total_users = User::count();
         return view('home', compact('users', 'total_users'));
