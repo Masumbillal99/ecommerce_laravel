@@ -3,11 +3,15 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use App\Category;
+use Auth;
+use Carbon\Carbon;
 
 class CategoryController extends Controller
 {
     function addcategory(){
-        return view('admin.category.index');
+        $categories = Category::all();
+        return view('admin.category.index', compact('categories'));
     }
     function addcategorypost(Request $request){
         $request->validate([
@@ -16,6 +20,16 @@ class CategoryController extends Controller
         [
             'category_name.required' => 'Please input category'
         ]);
-        echo $request->category_name;
+        Category::insert([
+            'category_name' => $request->category_name,
+            'user_id'   => Auth::user()->id,
+            'created_at'    => Carbon::now()
+        ]);
+       return back()->with('success_messge', 'Your category added successfully');
+    }
+    function updatecategory($category_id){
+        // echo $category_id;
+        $category_name = Category::find($category_id)->category_name;
+        return view('admin.category.update', compact('category_name'));
     }
 }

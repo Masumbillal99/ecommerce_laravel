@@ -14,30 +14,35 @@
                     <table class="table">
                         <thead>
                             <tr>
-                            <th scope="col">#</th>
-                            <th scope="col">First</th>
-                            <th scope="col">Last</th>
-                            <th scope="col">Handle</th>
+                            <th scope="col">SL No</th>
+                            <th scope="col">Category</th>
+                            <th scope="col">Added by</th>
+                            <th scope="col">Created at</th>
+                            <th scope="col">Action</th>
                             </tr>
                         </thead>
                         <tbody>
+                            @foreach($categories as $category)
                             <tr>
-                            <th scope="row">1</th>
-                            <td>Mark</td>
-                            <td>Otto</td>
-                            <td>@mdo</td>
+                            <td> {{ $loop->index + 1 }} </td>
+                            <td> {{ $category->category_name }} </td>
+                            <td> {{ App\User::find($category->user_id)->name }} </td>
+                            <td>
+                                @if($category->created_at)
+                                 {{ $category->created_at->diffForHumans() }}
+                                @else
+                                 No time abal
+                                @endif
+                            </td>
+                            <td>
+                                <div class="btn-group text-white" role="group" aria-label="Basic example">
+                                    <a href="{{ url('update/category')}}/{{ $category->id }}" type="button" class="btn btn-info">Update</a>
+                                    <a href="" type="button" class="btn btn-danger">Delete</a>
+                                </div>
+                            </td>
                             </tr>
-                            <tr>
-                            <th scope="row">2</th>
-                            <td>Jacob</td>
-                            <td>Thornton</td>
-                            <td>@fat</td>
-                            </tr>
-                            <tr>
-                            <th scope="row">3</th>
-                            <td colspan="2">Larry the Bird</td>
-                            <td>@twitter</td>
-                            </tr>
+                            @endforeach
+                            
                         </tbody>
                     </table>
                 </div>
@@ -49,6 +54,12 @@
                     <h1>Add category:</h1>
                 </div>
                 <div class="card-body">
+                   
+                    @if(session('success_messge'))
+                    <div class="alert alert-success">
+                    {{ session('success_messge') }}
+                    </div>
+                    @endif
                     <form action="{{ url('add/category/post')}}" method="post">
                         @csrf
                         <div class="mb-3">
