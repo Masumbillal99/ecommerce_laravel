@@ -18,6 +18,7 @@ class CreateCategoriesTable extends Migration
             $table->string('category_name', 50);
             $table->integer('user_id');
             $table->timestamps();
+            $table->softDeletes();
         });
     }
 
@@ -29,5 +30,6 @@ class CreateCategoriesTable extends Migration
     public function down()
     {
         Schema::dropIfExists('categories');
+        $table->dropSoftDeletes();
     }
 }

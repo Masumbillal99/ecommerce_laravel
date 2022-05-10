@@ -11,7 +11,8 @@ class CategoryController extends Controller
 {
     function addcategory(){
         $categories = Category::all();
-        return view('admin.category.index', compact('categories'));
+        $deleted_categories = Category::onlyTrashed()->get();
+        return view('admin.category.index', compact('categories', 'deleted_categories'));
     }
     function addcategorypost(Request $request){
         $request->validate([
@@ -30,6 +31,24 @@ class CategoryController extends Controller
     function updatecategory($category_id){
         // echo $category_id;
         $category_name = Category::find($category_id)->category_name;
-        return view('admin.category.update', compact('category_name'));
+        return view('admin.category.update', compact('category_name', 'category_id'));
+    }
+    function updatecategorypost(Request $request){
+        Category::find($request->category_id)->update([
+            'category_name' =>$request->category_name
+        ]);
+        return redirect('add/category')->with('update_status', 'Category Update Successfully');
+    }
+    function deletecategory($category_id){
+        Category::find($category_id)->delete();
+        return back()->with('delete_status', 'Category Delete Successfully');
+    }
+    function restorecategory($category_id){
+    Category::withTrashed()->find($category_id)->restore();
+    return back()->with('restore_status', 'Category Restore Successfully');
+    }
+    function harddeletecategory($category_id){
+        Category::onlyTrashed()->find($category_id)->forceDelete();
+        return back()->with('harddelete_status', 'Category Hard Delete Successfully');
     }
 }
