@@ -20,10 +20,12 @@ Route::get('/', function () {
 // Route::get('/', function(){
 //     return "hellow world";
 // });
-Auth::routes();
+Auth::routes(['verify' => true]); //login, register, forget password
 
-Route::get('/home', 'HomeController@index')->name('home');
+Route::get('/home', 'HomeController@index')->name('home')->middleware('verified');;
 
+
+#categoryController route
 Route::get('/add/category', 'CategoryController@addcategory');
 
 Route::post('/add/category/post', 'CategoryController@addcategorypost');
@@ -37,3 +39,9 @@ Route::get('/delete/category/{category_id}', 'CategoryController@deletecategory'
 Route::get('/restore/category/{category_id}', 'CategoryController@restorecategory');
 
 Route::get('/harddelete/category/{category_id}', 'CategoryController@harddeletecategory');
+
+
+#profileController route
+Route::get('/profile', 'profileController@index');
+Route::post('/profile/post', 'profileController@profilepost');
+Route::post('/password/post', 'profileController@passwordpost');

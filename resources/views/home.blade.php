@@ -14,7 +14,7 @@
                         </div>
                     @endif
 
-                   <p>Welcome, {{ Auth::user()->name }}</p>
+                   <p>Welcome, {{ Str::title(Auth::user()->name) }}</p>
                    <p>Welcome, {{ Auth::user()->email }}</p>
                    <p>Welcome, {{ Auth::user()->created_at }}</p>
                 </div>

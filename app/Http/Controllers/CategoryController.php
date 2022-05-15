@@ -16,10 +16,11 @@ class CategoryController extends Controller
     }
     function addcategorypost(Request $request){
         $request->validate([
-            'category_name' => 'required'
+            'category_name' => 'required|unique:categories,category_name'
         ],
         [
-            'category_name.required' => 'Please input category'
+            'category_name.required' => 'Please input category',
+            'category_name.unique' => 'You can not use this category name'
         ]);
         Category::insert([
             'category_name' => $request->category_name,
