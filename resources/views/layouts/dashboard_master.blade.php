@@ -55,16 +55,28 @@
 
         <label class="sidebar-label">Navigation</label>
         <div class="sl-sideleft-menu">
-            <a href="{{ url('home') }}" class="sl-menu-link active">
+            <a href="{{ url('home') }}" class="sl-menu-link @yield('home')">
                 <div class="sl-menu-item">
                     <i class="menu-item-icon icon ion-ios-home-outline tx-22"></i>
                     <span class="menu-item-label">Home</span>
                 </div><!-- menu-item -->
             </a><!-- sl-menu-link -->
-            <a href="{{ url('add/category') }}" class="sl-menu-link">
+            <a href="{{ url('add/category') }}" class="sl-menu-link @yield('category')">
                 <div class="sl-menu-item">
                     <i class="menu-item-icon icon ion-ios-photos-outline tx-20"></i>
                     <span class="menu-item-label">Category</span>
+                </div><!-- menu-item -->
+            </a><!-- sl-menu-link -->
+             <a href="{{ url('add/product') }}" class="sl-menu-link @yield('product')">
+                <div class="sl-menu-item">
+                    <i class="menu-item-icon icon ion-ios-photos-outline tx-20"></i>
+                    <span class="menu-item-label">Product</span>
+                </div><!-- menu-item -->
+            </a><!-- sl-menu-link -->
+            <a href="{{ url('/') }}" class="sl-menu-link" target="_blank">
+                <div class="sl-menu-item">
+                    <i class="menu-item-icon icon ion-ios-photos-outline tx-20"></i>
+                    <span class="menu-item-label">Visit website</span>
                 </div><!-- menu-item -->
             </a><!-- sl-menu-link -->
             <a href="#" class="sl-menu-link">
@@ -311,11 +323,11 @@
     @yield('content')
 
 
-    </div><!-- sl-pagebody -->
+    <div class="sl-mainpanel"><!-- sl-pagebody -->
     <footer class="sl-footer">
         <div class="footer-left">
-            <div class="mg-b-2">Copyright &copy; 2017. Starlight. All Rights Reserved.</div>
-            <div>Made by ThemePixels.</div>
+            <div class="mg-b-2">Copyright &copy; {{ Carbon\Carbon::now()->format('Y')}}. Starlight. All Rights Reserved.</div>
+            <div>Made by Masum Billal.</div>
         </div>
         <div class="footer-right d-flex align-items-center">
             <span class="tx-uppercase mg-r-10">Share:</span>

@@ -13,13 +13,12 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::get('/', function () {
-    return view('welcome');
-});
+Route::get('/', 'FrontendController@index');
+Route::get('/contact', 'FrontendController@contact');
+Route::get('/about', 'FrontendController@about');
+Route::get('/product/details/{product_id}', 'FrontendController@productdetails');
 
-// Route::get('/', function(){
-//     return "hellow world";
-// });
+
 Auth::routes(['verify' => true]); //login, register, forget password
 
 Route::get('/home', 'HomeController@index')->name('home')->middleware('verified');;
@@ -45,3 +44,9 @@ Route::get('/harddelete/category/{category_id}', 'CategoryController@harddeletec
 Route::get('/profile', 'profileController@index');
 Route::post('/profile/post', 'profileController@profilepost');
 Route::post('/password/post', 'profileController@passwordpost');
+
+#productController route
+Route::get('/add/product', 'ProductController@addproduct');
+Route::post('/add/product/post', 'ProductController@addproductpost');
+// Route::post('/password/post', 'profileController@passwordpost');
+

@@ -49,7 +49,7 @@ class CategoryController extends Controller
         $uploaded_photo = $request->file('category_photo');
         $new_name = $category_id.'.'.$uploaded_photo->getClientOriginalExtension();
         $new_upload_location = base_path('public/uploads/category_photos/' . $new_name);
-        Image::make($uploaded_photo)->save($new_upload_location, 50);
+        Image::make($uploaded_photo)->resize(600,470)->save($new_upload_location, 50);
         //photo upload end
 
         Category::find($category_id)->update([
@@ -61,9 +61,29 @@ class CategoryController extends Controller
     function updatecategory($category_id){
         // echo $category_id;
         $category_name = Category::find($category_id)->category_name;
-        return view('admin.category.update', compact('category_name', 'category_id'));
+        $category_photo = Category::find($category_id)->category_photo;
+        return view('admin.category.update', compact('category_name', 'category_id', 'category_photo'));
     }
     function updatecategorypost(Request $request){
+        if($request->hasFile('new_category_photo')){
+            // old photo delete start
+        $new_upload_location = base_path('public/uploads/category_photos/' . Category::find($request->category_id)->category_photo);
+        unlink($new_upload_location);
+        // old photo delete start
+
+        //new photo upload start
+        $uploaded_photo = $request->file('new_category_photo');
+        $new_name = $request->category_id.'.'.$uploaded_photo->getClientOriginalExtension();
+        $new_upload_location = base_path('public/uploads/category_photos/' . $new_name);
+        Image::make($uploaded_photo)->resize(600,470)->save($new_upload_location, 50);
+        //new photo upload end
+
+        // new photo info update at db start
+        Category::find($request->category_id)->update([
+            'category_photo'    => $new_name
+        ]);
+        // new photo info update at db end
+        }
         Category::find($request->category_id)->update([
             'category_name' =>$request->category_name
         ]);
@@ -78,7 +98,9 @@ class CategoryController extends Controller
     return back()->with('restore_status', 'Category Restore Successfully');
     }
     function harddeletecategory($category_id){
+        $new_upload_location = base_path('public/uploads/category_photos/' . Category::onlyTrashed()->find($category_id)->category_photo);
         Category::onlyTrashed()->find($category_id)->forceDelete();
+        unlink($new_upload_location);
         return back()->with('harddelete_status', 'Category Hard Delete Successfully');
     }
 }

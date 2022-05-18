@@ -1,11 +1,12 @@
 @extends('layouts.dashboard_master');
 
+
 @section('content')
 
 <div class="sl-mainpanel">
     <nav class="breadcrumb sl-breadcrumb">
         <a class="breadcrumb-item" href="{{ url('home')}}">Home</a>
-        <span class="breadcrumb-item active">Add Category</span>
+        <span class="breadcrumb-item active">Edit Profile</span>
     </nav>
 
     <div class="sl-pagebody">
