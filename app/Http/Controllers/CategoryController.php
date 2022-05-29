@@ -25,7 +25,7 @@ class CategoryController extends Controller
      *
      * @return \Illuminate\Contracts\Support\Renderable
      */
-    function addcategory(){
+    function addcategory(){ 
         $categories = Category::all();
         $deleted_categories = Category::onlyTrashed()->get();
         return view('admin.category.index', compact('categories', 'deleted_categories'));

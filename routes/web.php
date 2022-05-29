@@ -17,6 +17,7 @@ Route::get('/', 'FrontendController@index');
 Route::get('/contact', 'FrontendController@contact');
 Route::get('/about', 'FrontendController@about');
 Route::get('/product/details/{product_id}', 'FrontendController@productdetails');
+Route::get('/shop', 'FrontendController@shop');
 
 
 Auth::routes(['verify' => true]); //login, register, forget password
@@ -49,4 +50,16 @@ Route::post('/password/post', 'profileController@passwordpost');
 Route::get('/add/product', 'ProductController@addproduct');
 Route::post('/add/product/post', 'ProductController@addproductpost');
 // Route::post('/password/post', 'profileController@passwordpost');
+
+#CartController route
+Route::get('/cart', 'CartController@cart');
+Route::get('/cart/{coupon_name}', 'CartController@cart');
+Route::post('/add/to/cart', 'CartController@addtocart');
+Route::get('/cart/delete/{cart_id}', 'CartController@cartdelete');
+Route::post('/cart/update', 'CartController@cartupdate');
+
+#CouponController route
+Route::get('/add/coupon', 'CouponController@addcoupon');
+Route::post('/add/coupon/post', 'CouponController@addcouponpost');
+// Route::get('/cart/{coupon}', 'CouponController@addcouponpost');
 

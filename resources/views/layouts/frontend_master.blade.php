@@ -100,16 +100,7 @@
                             <ul class="d-flex">
                                 <li class="active"><a href="{{ url('/') }}">Home</a></li>
                                 <li><a href="{{ url('/about') }}">About</a></li>
-                                <li>
-                                    <a href="javascript:void(0);">Shop <i class="fa fa-angle-down"></i></a>
-                                    <ul class="dropdown_style">
-                                        <li><a href="shop.html">Shop Page</a></li>
-                                        <li><a href="single-product.html">Product Details</a></li>
-                                        <li><a href="cart.html">Shopping cart</a></li>
-                                        <li><a href="checkout.html">Checkout</a></li>
-                                        <li><a href="wishlist.html">Wishlist</a></li>
-                                    </ul>
-                                </li>
+                                <li><a href="{{ url('/shop') }}">Shop</a></li>
                                 <li>
                                     <a href="javascript:void(0);">Pages <i class="fa fa-angle-down"></i></a>
                                     <ul class="dropdown_style">
@@ -168,44 +159,35 @@
                                 </ul>
                             </li>
                             <li>
-                                <a href="javascript:void(0);"><i class="flaticon-shop"></i> <span>3</span></a>
+                                <a href="javascript:void(0);"><i class="flaticon-shop"></i>
+                                    <span>{{ App\Cart::where('ip_address', request()->ip())->count() }}</span></a>
                                 <ul class="cart-wrap dropdown_style">
+                                    @php
+                                    $sub_total = 0;
+                                    @endphp
+                                    @foreach(App\Cart::where('ip_address', request()->ip())->get() as $cart)
                                     <li class="cart-items">
                                         <div class="cart-img">
                                             <img src="{{ asset('frontend_asssets') }}/images/cart/1.jpg" alt="">
                                         </div>
                                         <div class="cart-content">
-                                            <a href="cart.html">Pure Nature Product</a>
-                                            <span>QTY : 1</span>
-                                            <p>$35.00</p>
-                                            <i class="fa fa-times"></i>
+                                            <a
+                                                href="cart.html">{{ App\Product::find($cart->product_id)->product_name }}</a>
+                                            <span>QTY : {{ $cart->quantity }}</span>
+                                            <p>${{ App\Product::find($cart->product_id)->product_price * $cart->quantity }}
+                                            </p>
+                                            @php
+                                            $sub_total = $sub_total +
+                                            (App\Product::find($cart->product_id)->product_price * $cart->quantity);
+                                            @endphp
+                                            <a href="{{ url('cart/delete') }}/{{ $cart->id }}"><i
+                                                    class="fa fa-times"></i></a>
                                         </div>
                                     </li>
-                                    <li class="cart-items">
-                                        <div class="cart-img">
-                                            <img src="{{ asset('frontend_asssets') }}/images/cart/3.jpg" alt="">
-                                        </div>
-                                        <div class="cart-content">
-                                            <a href="cart.html">Pure Nature Product</a>
-                                            <span>QTY : 1</span>
-                                            <p>$35.00</p>
-                                            <i class="fa fa-times"></i>
-                                        </div>
-                                    </li>
-                                    <li class="cart-items">
-                                        <div class="cart-img">
-                                            <img src="{{ asset('frontend_asssets') }}/images/cart/2.jpg" alt="">
-                                        </div>
-                                        <div class="cart-content">
-                                            <a href="cart.html">Pure Nature Product</a>
-                                            <span>QTY : 1</span>
-                                            <p>$35.00</p>
-                                            <i class="fa fa-times"></i>
-                                        </div>
-                                    </li>
-                                    <li>Subtotol: <span class="pull-right">$70.00</span></li>
+                                    @endforeach
+                                    <li>Subtotol: <span class="pull-right">${{ $sub_total }}</span></li>
                                     <li>
-                                        <button>Check Out</button>
+                                        <a href="{{ url('cart') }}" class="btn btn-danger">Cart</a>
                                     </li>
                                 </ul>
                             </li>
@@ -270,7 +252,7 @@
     <!-- header-area end -->
 
 
-@yield('frontend_content')
+    @yield('frontend_content')
 
 
     <!-- start social-newsletter-section -->
@@ -432,6 +414,17 @@
     <script src="{{ asset('frontend_asssets') }}/js/jquery-ui.min.js"></script>
     <!-- main js -->
     <script src="{{ asset('frontend_asssets') }}/js/scripts.js"></script>
+    <script type="text/javascript">
+        $(document).ready(function () {
+            $('#apply_coupon_btn').click(function(){
+                var coupon_text = $('#coupon_text').val();
+                var link_to_go = "{{ url('cart') }}/"+coupon_text;
+                // alert(link_to_go);
+                window.location.href = link_to_go;
+            });
+        });
+
+    </script>
 </body>
 
 

@@ -54,14 +54,38 @@
                                 <tr>
                                     <th scope="col">SL No</th>
                                     <th scope="col">Product Name</th>
-                                    <th scope="col">Added by</th>
+                                    <th scope="col">Category Name</th>
+                                    <th scope="col">Product Price</th> 
+                                    <th scope="col">Product Quantity</th>
                                     <th scope="col">Created at</th>
-                                    <th scope="col">Last Update at</th>
                                     <th scope="col">Category Photo</th>
                                     <th scope="col">Action</th>
                                 </tr>
                             </thead>
-                           
+                            <tbody>
+                                @forelse($products as $product)
+                                <tr>
+                                    <td> {{ $loop->index + 1 }} </td>
+                                    <td> {{ $product->product_name }} </td>
+                                    <td> {{ $product->relationtocategorytable->category_name }} </td>
+                                    <!-- <td> {{ App\Category::find($product->category_id)->category_name }} </td> -->
+                                    <td> {{ $product->product_price }} </td>
+                                    <td> {{ $product->product_quantity }} </td>
+                                    <td> {{ $product->created_at }} </td>
+                                    <td> {{ $product->product_thumbnail_photo }} </td>
+                                    <td>
+                                        <img src="{{ asset('uploads/product_photos')}}/{{ $product->product_thumbnail_photo }}"
+                                            width="50" alt="not found">
+                                    </td>
+                                    
+                                </tr>
+                                @empty
+                                <tr>
+                                    <td colspan="50" class="text-center text-danger ">No data to show</td>
+                                </tr>
+                                @endforelse
+
+                            </tbody>
                         </table>
                     </div>
                 </div>
@@ -143,6 +167,15 @@
                             <div class="mb-3">
                                 <label class="form-label">Product Thumbnail Photo</label>
                                 <input type="file" class="form-control" name="product_thumbnail_photo">
+                                @error('category_photo')
+                                <span class="text-danger">
+                                    {{ $message }}
+                                </span>
+                                @enderror
+                            </div>
+                            <div class="mb-3">
+                                <label class="form-label">Product Multiple Photo</label>
+                                <input type="file" class="form-control" name="product_multiple_photos[]" multiple>
                                 @error('category_photo')
                                 <span class="text-danger">
                                     {{ $message }}
