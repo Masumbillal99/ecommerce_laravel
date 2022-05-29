@@ -28,14 +28,18 @@ class CartController extends Controller
         if($coupon_name){
             if(Coupon::where('coupon_name', $coupon_name)->exists()){
                 if(Coupon::where('coupon_name', $coupon_name)->first()->validity_till >= Carbon::now()->format('Y-m-d')){
-                    echo Coupon::where('coupon_name', $coupon_name)->first()->discount_ammount;
+                    return view('cart', [
+                        'carts' => Cart::where('ip_address', request()->ip())->get(),
+                        'discount_amount'  => Coupon::where('coupon_name', $coupon_name)->first()->discount_ammount,
+                        'coupon_name'   => $coupon_name
+                    ]);
                 }
                 else{
                     return redirect('cart')->with('invalid_error', 'your coupon is invalid');
                 }
             }
             else{
-                return redirect('cart')-with('no_exists_error', 'Your coupon does not exists');
+                return redirect('cart')->with('no_exists_error', 'Your coupon does not exists');
             }
         }else{
             return view('cart', [

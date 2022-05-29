@@ -72,7 +72,7 @@
                                 <h3>Cupon</h3>
                                 <p>Enter Your Cupon Code if You Have One</p>
                                 <div class="">
-                                    <input type="text" placeholder="Cupon Code" id="coupon_text">
+                                    <input type="text" placeholder="Cupon Code" id="coupon_text" value="{{ $coupon_name ?? '' }}">
                                     <a class="btn btn-danger" id="apply_coupon_btn">Apply Cupon</a>
                                 </div> 
                             </div>
@@ -82,6 +82,9 @@
                                 <h3>Cart Totals</h3>
                                 <ul>
                                     <li><span class="pull-left">Subtotal </span>${{ $sub_total_cart }}</li>
+                                    @isset($discount_amount)
+                                     <li><span class="pull-left"> Discount Amount </span> ${{ $discount_amount }}%</li>
+                                    @endisset
                                     <li><span class="pull-left"> Total </span> $380.00</li>
                                 </ul>
                                 <a href="checkout.html">Proceed to Checkout</a>
