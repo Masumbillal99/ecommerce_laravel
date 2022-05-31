@@ -63,3 +63,12 @@ Route::get('/add/coupon', 'CouponController@addcoupon');
 Route::post('/add/coupon/post', 'CouponController@addcouponpost');
 // Route::get('/cart/{coupon}', 'CouponController@addcouponpost');
 
+#CheckoutController route
+Route::get('/checkout', 'CheckoutController@index');
+Route::post('/checkout/post', 'CheckoutController@checkoutpost');
+
+#Customer_registerController route
+Route::get('/customer/register', 'Customer_registerController@customerregister');
+Route::post('/customer/register/post', 'Customer_registerController@customerregisterpost');
+
+

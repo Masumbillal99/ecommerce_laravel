@@ -79,7 +79,7 @@
                                     <li><a href="wishlist.html">wishlist</a></li>
                                 </ul>
                             </li>
-                            <li><a href="register.html"> Login/Register </a></li>
+                            <li><a href="{{ url('customer/register') }}"> Customer Register </a></li>
                         </ul>
                     </div>
                 </div>

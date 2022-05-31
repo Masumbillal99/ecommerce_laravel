@@ -83,11 +83,20 @@
                                 <ul>
                                     <li><span class="pull-left">Subtotal </span>${{ $sub_total_cart }}</li>
                                     @isset($discount_amount)
-                                     <li><span class="pull-left"> Discount Amount </span> ${{ $discount_amount }}%</li>
+                                     <li><span class="pull-left"> Discount Amount </span> {{ $discount_amount }}%</li>
                                     @endisset
-                                    <li><span class="pull-left"> Total </span> $380.00</li>
+                                    @isset($discount_amount)
+                                     <li><span class="pull-left"> Discount Amount </span> ${{ $sub_total_cart - ($sub_total_cart * ($discount_amount/100)) }}%</li>
+                                     @else
+                                     <li><span class="pull-left"> Total </span> ${{ $sub_total_cart }}</li>
+                                    @endisset
+                                    
                                 </ul>
-                                <a href="checkout.html">Proceed to Checkout</a>
+                                <form action="" method="">
+                                    @csrf
+                                    <input type="text" name="total" value="{{ $sub_total_cart }}">
+                                    <a href="checkout.html">Proceed to Checkout</a>
+                                </form>
                             </div>
                         </div>
                     </div>
